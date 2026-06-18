@@ -1,0 +1,39 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="ad8Rwms8rh2yyfbiVcCA">
+    <mxGraphModel dx="1414" dy="752" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--1" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;div&gt;user&lt;/div&gt;" vertex="1">
+          <mxGeometry height="190" width="160" x="40" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--2" parent="Eyy7eFdB7dbUOaslEh1--1" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=1;rotatable=1;part=1;html=1;whiteSpace=wrap;movable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;div&gt;id: integer&lt;/div&gt;&lt;div&gt;username: string&lt;/div&gt;&lt;div&gt;password: string&lt;/div&gt;&lt;div&gt;games_played: integer&lt;/div&gt;&lt;div&gt;games_lost: integer&lt;/div&gt;&lt;div&gt;games_won: integer&lt;/div&gt;&lt;div&gt;total_tries: integer&lt;/div&gt;&lt;div&gt;average_tries: integer&lt;/div&gt;&lt;div&gt;sketch_created: integer&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="160" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--3" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" value="sketch" vertex="1">
+          <mxGeometry height="120" width="160" x="345" y="293" as="geometry" />
+        </mxCell>
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--4" parent="Eyy7eFdB7dbUOaslEh1--3" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;" value="&lt;div&gt;id: integer&lt;/div&gt;&lt;div&gt;word: string&lt;/div&gt;&lt;div&gt;image: file&lt;/div&gt;&lt;div&gt;creation_date: date&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--5" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" value="tries" vertex="1">
+          <mxGeometry height="100" width="160" x="230" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--6" parent="Eyy7eFdB7dbUOaslEh1--5" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;" value="&lt;div&gt;user_fk: integer&lt;/div&gt;&lt;div&gt;sketch_fk: integer&lt;/div&gt;&lt;div&gt;tries: integer&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--7" edge="1" parent="1" source="Eyy7eFdB7dbUOaslEh1--2" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;startSize=20;endSize=30;" target="Eyy7eFdB7dbUOaslEh1--4" value="">
+          <mxGeometry height="100" relative="1" width="100" as="geometry">
+            <mxPoint x="320" y="440" as="sourcePoint" />
+            <mxPoint x="420" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Eyy7eFdB7dbUOaslEh1--8" connectable="0" parent="Eyy7eFdB7dbUOaslEh1--7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;creates&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1307" y="-4" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
