@@ -1,14 +1,15 @@
 import express from "express";
-import { Sequelize } from "@sequelize/core"
-import { PostgresDialect } from "@sequelize/postgres";
-
-const sequelize = new Sequelize({
-  dialect: PostgresDialect,
-  database: process.env.DB,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  host: 'localhost',
-  port: process.env.PORT
-});
+import { syncDatabase } from "./models/Database.js";
 
 const app = express();
+const PORT = 3000;
+
+try{
+    await syncDatabase().then(() => {
+      console.log('Sync successful!');
+    });
+} catch (error) {
+    console.error('Error: ' + error);
+}
+
+app.listen(PORT);
