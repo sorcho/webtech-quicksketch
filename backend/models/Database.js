@@ -23,5 +23,5 @@ Try.belongsTo(User);
 Try.belongsTo(Sketch);
 
 export async function syncDatabase() {
-    return database.sync();
+    return database.sync({force: true});
 }
