@@ -17,7 +17,11 @@ export function createModel(database) {
             type: DataTypes.STRING,
             allowNull: false,
             set(value) {
-                this.setDataValue('password', bcrypt.hashSync(value, 10));
+                if (value) {
+                    this.setDataValue('password', bcrypt.hashSync(value, 10));
+                } else {
+                    this.setDataValue('password', value);
+                }
             }
         }
     })
