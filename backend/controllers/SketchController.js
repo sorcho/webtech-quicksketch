@@ -1,62 +1,84 @@
 import { saveImage } from "../utils/saveImage.js"
-import { Sketch, Try, User } from "../models/Database.js";
+import { Sketch, Try } from "../models/Database.js";
 
 export class SketchController {
     static async newSketch(req, res) {
         const rawImage = req.body.image
 
         if (!rawImage) {
-            return Promise.reject(new Error("No image provided"));
+            return res.status(400).json({ message: 'No image provided.' });
         }
 
-        const imagePath = saveImage(rawImage);
-        const sketch = await Sketch.create({
-            word: req.body.word,
-            image: imagePath,
-            UserId: req.id
-        });
-        return sketch;
+        if (!req.body.word) {
+            return res.status(400).json({ message: 'No word provided.' });
+        }
+
+        try {
+            const imagePath = saveImage(rawImage);
+            await Sketch.create({
+                word: req.body.word,
+                image: imagePath,
+                UserId: req.id
+            });
+            res.status(201).json({ message: "Sketch created." });
+        } catch (err) {
+            res.status(500).json({ message: "Error creating the sketch." });
+        }
     };
 
     static async getAllSketches(req, res) {
-        const sketches = await Sketch.findAll();
+        const sketches = await Sketch.findAll({
+            attributes: { exclude: ['word'] }
+        });
 
-        return sketches;
+        (sketches.length === 0) ? res.status(404).json({ message: 'No sketches found.' }) : res.status(200).json(sketches);
     };
 
     static async getSketch(req, res) {
-        const sketch = await Sketch.findByPk(req.params.id);
+        const sketch = await Sketch.findByPk(req.params.id, {
+            attributes: { exclude: ['word'] }
+        });
 
-        return sketch;
-    };
+        (!sketch) ? res.status(404).json({ message: 'No sketch found.' }) : res.status(200).json(sketch);
+    }
 
     static async newTry(req, res) {
         const sketchId = req.params.id;
         const userId = req.id;
-        const [found, sketch] = await Promise.all([
-            Try.findOne({ where: { UserId: userId, SketchId: sketchId } }),
-            Sketch.findByPk(sketchId, { attributes: ['word'] })
-        ]);
 
-        if (!sketch) return Promise.reject(new Error("Sketch not found."));
+        try {
+            const [found, sketch] = await Promise.all([
+                Try.findOne({ where: { UserId: userId, SketchId: sketchId } }),
+                Sketch.findByPk(sketchId, { attributes: ['word'] })
+            ]);
 
-        const correct = req.body.guess.toLowerCase() === sketch.word.toLowerCase();
+            if (!sketch) return res.status(404).json({ error: "Sketch not found." });
 
-        if (!found) {
-            return Try.create({
-                tries_used: 1,
-                solved: correct,
-                UserId: userId,
-                SketchId: sketchId
+            const correct = req.body.guess.toLowerCase() === sketch.word.toLowerCase();
+
+            if (!found) {
+                await Try.create({
+                    tries_used: 1,
+                    solved: correct,
+                    UserId: userId,
+                    SketchId: sketchId
+                });
+
+                return res.status(200).json({ correct, tries_left: 9 });
+            }
+
+            if (found.solved) return res.status(409).json({ error: "Already solved." });
+            if (found.tries_used >= 10) return res.status(409).json({ error: "Too many tries.", word: sketch.word });
+
+            await found.update({
+                tries_used: found.tries_used + 1,
+                solved: correct
             });
+
+            const tries_left = 10 - (found.tries_used + 1);
+            return res.status(200).json({ correct, tries_left, word: correct || tries_left === 0 ? sketch.word : null });
+        } catch (err) {
+            res.status(500).json({ error: "Internal server error." });
         }
-
-        if (found.solved) return Promise.reject(new Error("Already solved."));
-        if (found.tries_used >= 10) return Promise.reject(new Error("Too many tries."));
-
-        return found.update({
-            tries_used: found.tries_used + 1,
-            solved: correct
-        });
     };
 };
