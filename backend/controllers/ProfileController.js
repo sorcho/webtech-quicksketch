@@ -25,6 +25,6 @@ export class ProfileController {
 
         const winRate = gamesPlayed === 0 ? 0 : Math.round((solved / gamesPlayed) * 100);
 
-        res.status(200).json({ username: found.username, n_sketches: nSketches, n_tries: nTries, n_solved: solved, n_unsolved: unsolved, games_played: gamesPlayed, win_rate: winRate })
+        return res.status(200).json({ username: found.username, n_sketches: nSketches, n_tries: nTries, n_solved: solved, n_unsolved: unsolved, games_played: gamesPlayed, win_rate: winRate })
     }
 }
