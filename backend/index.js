@@ -4,6 +4,7 @@ import { syncDatabase } from "./models/Database.js";
 import { authRouter } from "./routes/authRouter.js";
 import { sketchRouter } from "./routes/sketchRoute.js";
 import { profileRouter } from "./routes/profileRouter.js";
+import { leaderboardRouter } from "./routes/leaderboardRouter.js";
 
 const app = express();
 const PORT = 3000;
@@ -23,5 +24,6 @@ app.use('/uploads', express.static('uploads'));
 app.use(authRouter);
 app.use(sketchRouter);
 app.use(profileRouter);
+app.use(leaderboardRouter);
 
 app.listen(PORT);
