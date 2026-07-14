@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser"
 import { syncDatabase } from "./models/Database.js";
 import { authRouter } from "./routes/authRouter.js";
+import { sketchRouter } from "./routes/sketchRoute.js";
 
 const app = express();
 const PORT = 3000;
@@ -14,9 +15,11 @@ try{
     console.error('Error: ' + error);
 }
 
-app.use(express.json());
-app.use(cookieParser());
+app.use(express.json({ limit: '5mb' }));
+app.use(cookieParser()); 
+app.use('/uploads', express.static('uploads'));
 
 app.use(authRouter);
+app.use(sketchRouter);
 
 app.listen(PORT);

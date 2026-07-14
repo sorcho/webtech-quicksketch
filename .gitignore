@@ -144,3 +144,6 @@ vite.config.ts.timestamp-*
 
 # sqlite database
 *.sqlite
+
+# users uploads directory
+uploads/
