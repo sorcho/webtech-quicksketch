@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser"
 import { syncDatabase } from "./models/Database.js";
 import { authRouter } from "./routes/authRouter.js";
-import { sketchRouter } from "./routes/sketchRoute.js";
+import { sketchRouter } from "./routes/sketchRouter.js";
 import { profileRouter } from "./routes/profileRouter.js";
 import { leaderboardRouter } from "./routes/leaderboardRouter.js";
 
