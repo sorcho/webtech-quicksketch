@@ -8,11 +8,11 @@ export const database = new Sequelize(process.env.DB_CONNECTION_URI, {
     dialect: process.env.DIALECT
 });
 
-createUserModel(database); 
+createUserModel(database);
 createSketchModel(database);
 createTryModel(database);
 
-export const {User, Sketch, Try} = database.models;
+export const { User, Sketch, Try } = database.models;
 
 User.hasMany(Sketch);
 Sketch.belongsTo(User);
@@ -23,5 +23,5 @@ Try.belongsTo(User);
 Try.belongsTo(Sketch);
 
 export async function syncDatabase() {
-    return database.sync({alter: true});
+    return database.sync();
 }

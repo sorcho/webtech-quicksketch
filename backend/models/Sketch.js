@@ -14,11 +14,6 @@ export function createModel(database) {
         image: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        creation_date: {
-            type: DataTypes.DATEONLY,
-            defaultValue: DataTypes.NOW,
-            allowNull: false
         }
     })
 }
