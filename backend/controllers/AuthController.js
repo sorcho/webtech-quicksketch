@@ -14,12 +14,11 @@ export class AuthController {
 
     static async checkCreds(req, res) {
         const user = await User.findOne({ where: { username: req.body.username } });
-        if (!user) return false;
-        return bcrypt.compareSync(req.body.password, user.password);
+        if (user && bcrypt.compareSync(req.body.password, user.password)) return user;
     }
 
-    static issueToken(username) {
-        return Jwt.sign({ user: username }, process.env.JWT_SECRET, { expiresIn: `${24 * 60 * 60}s` });
+    static issueToken(id) {
+        return Jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: `${24 * 60 * 60}s` });
     }
 
     static checkToken(token, callback) {
