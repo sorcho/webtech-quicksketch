@@ -17,7 +17,7 @@ export async function userCantGuessOwnSketch(req, res, next) {
     const userId = req.id;
     const sketchOwner = await Sketch.findByPk(sketchId, { attributes: ['UserId'] })
 
-    if (sketchOwner == userId) {
+    if (sketchOwner?.UserId === userId) {
         return res.status(400).json({ message: "Can't guess own sketch." });
     }
 

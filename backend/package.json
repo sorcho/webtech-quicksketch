@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "license": "AGPL-version-3.0",
+  "license": "GPLv2",
   "private": false,
   "engines": {
     "node": ">= 14.0.0",
@@ -32,6 +32,7 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "jsonwebtoken": "^9.0.3",
     "nodemon": "^3.1.14",
     "sequelize": "^6.37.8",
