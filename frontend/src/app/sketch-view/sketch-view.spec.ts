@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SketchPlay } from './sketch-play';
+import { SketchView } from './sketch-view';
 
-describe('SketchPlay', () => {
-  let component: SketchPlay;
-  let fixture: ComponentFixture<SketchPlay>;
+describe('SketchView', () => {
+  let component: SketchView;
+  let fixture: ComponentFixture<SketchView>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SketchPlay],
+      imports: [SketchView],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SketchPlay);
+    fixture = TestBed.createComponent(SketchView);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
