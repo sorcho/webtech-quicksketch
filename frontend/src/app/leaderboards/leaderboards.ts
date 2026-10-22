@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 
@@ -6,6 +6,7 @@ import { Footer } from '../footer/footer';
   selector: 'app-leaderboards',
   imports: [Header, Footer],
   templateUrl: './leaderboards.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './leaderboards.css',
 })
-export class Leaderboards { }
+export class Leaderboards {}

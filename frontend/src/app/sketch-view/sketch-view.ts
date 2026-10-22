@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 
@@ -6,6 +6,7 @@ import { Footer } from '../footer/footer';
   selector: 'app-sketch-view',
   imports: [Header, Footer],
   templateUrl: './sketch-view.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './sketch-view.css',
 })
-export class SketchView { }
+export class SketchView {}

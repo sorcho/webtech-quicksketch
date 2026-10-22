@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 
@@ -6,6 +6,7 @@ import { Footer } from '../footer/footer';
   selector: 'app-profile',
   imports: [Header, Footer],
   templateUrl: './profile.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './profile.css',
 })
-export class Profile { }
+export class Profile {}

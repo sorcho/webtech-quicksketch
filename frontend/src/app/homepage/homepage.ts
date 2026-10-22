@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 
@@ -6,6 +6,7 @@ import { Footer } from '../footer/footer';
   selector: 'app-homepage',
   imports: [Header, Footer],
   templateUrl: './homepage.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './homepage.css',
 })
-export class Homepage { }
+export class Homepage {}

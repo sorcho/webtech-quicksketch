@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 
@@ -6,6 +6,7 @@ import { Footer } from '../footer/footer';
   selector: 'app-not-found',
   imports: [Header, Footer],
   templateUrl: './not-found.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './not-found.css',
 })
-export class NotFound { }
+export class NotFound {}
