@@ -8,6 +8,7 @@ import { SketchMain } from './sketch-main/sketch-main';
 import { SketchView } from './sketch-view/sketch-view';
 import { Homepage } from './homepage/homepage';
 import { NotFound } from './not-found/not-found';
+import { Leaderboards } from './leaderboards/leaderboards';
 
 export const routes: Routes = [
     {
@@ -23,12 +24,8 @@ export const routes: Routes = [
         component: Profile
     },
     {
-        path: "leaderboard/best-guessers",
-        component: LbGuessers
-    },
-    {
-        path: "leaderboard/best-drawers",
-        component: LbDrawers
+        path: "leaderboards",
+        component: Leaderboards
     },
     {
         path: "sketches",
