@@ -9,15 +9,13 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header {
-  isMenuOpen = signal(0);
+  isMenuClosed = signal(true);
 
   toggleHamburger() {
-    if (this.isMenuOpen()) {
-      this.isMenuOpen.set(1);
-      console.log('i opened the hamburger');
-    } else {
-      this.isMenuOpen.set(0);
-      console.log('i closed the hamburger');
-    }
+    this.isMenuClosed.update((value) => !value)
+  }
+
+  closeMenu() {
+
   }
 }
