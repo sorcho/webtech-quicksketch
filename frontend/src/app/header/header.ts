@@ -11,11 +11,11 @@ import { RouterLink } from '@angular/router';
 export class Header {
   isMenuClosed = signal(true);
 
-  toggleHamburger() {
-    this.isMenuClosed.update((value) => !value)
+  openMenu() {
+    this.isMenuClosed.set(false)
   }
 
   closeMenu() {
-
+    this.isMenuClosed.set(true)
   }
 }
