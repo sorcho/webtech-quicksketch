@@ -1,1 +1,158 @@
-<p>header works!</p>
+<header class="bg-white">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+            <div class="md:flex md:items-center md:gap-12"> <!-- LOGO -->
+                <a class="block text-teal-600" routerLink="/">
+                    <span class="sr-only">Home</span>
+                    <img src="/logo.png" alt="logo">
+                </a>
+            </div>
+
+            <div class="hidden md:block">
+                <nav aria-label="Global">
+                    <ul class="flex items-center gap-6 text-sm">
+                        <!-- <li>
+                            <a class="text-gray-500 transition hover:text-gray-500/75" routerLink="#"> About </a>
+                        </li> -->
+
+                        <li>
+                            <a class="text-gray-500 transition hover:text-gray-500/75" routerLink="/leaderboards">
+                                Leaderboards
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="text-gray-500 transition hover:text-gray-500/75" routerLink="/sketches"> Sketches
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="sm:flex sm:gap-4">
+                    <a class="transition hover:bg-teal-500 rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm"
+                        routerLink="/auth" [queryParams]="{mode: 'signin'}">
+                        Sign In
+                    </a>
+
+                    <div class="hidden sm:flex">
+                        <a class="transition hover:bg-gray-200 rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                            routerLink="/auth" [queryParams]="{mode: 'signup'}">
+                            Sign Up
+                        </a>
+                    </div>
+                </div>
+
+                <div class="block md:hidden">
+                    <button
+                        class="rounded-sm bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75 hover:cursor-pointer"
+                        (click)="openMenu()">
+                        <span class="sr-only">Toggle menu</span>
+
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="bg-white/50 fixed inset-0 z-40" [class.hidden]="isMenuClosed()" (click)="closeMenu()"></div>
+
+<div dir="rtl" class="fixed inset-y-0 inset-s-0 z-50" [class.hidden]="isMenuClosed()">
+    <div class="flex h-screen w-20 flex-col justify-between border-e border-gray-100 bg-white">
+        <div>
+            <ul class="space-y-1 border-t border-gray-100 px-2 pt-4">
+                <li> <!-- TODO make profile button appear only when logged in -->
+                    <a routerLink="/profile"
+                        class="group relative grid place-content-center rounded-lg hover:bg-gray-100 px-4 py-2 text-gray-900"
+                        aria-label="Profile">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+
+                        <span
+                            class="invisible absolute inset-s-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-200 px-2 py-1.5 text-xs font-medium text-gray-700 group-hover:visible">
+                            Profile
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a routerLink="/leaderboards"
+                        class="group relative grid place-content-center rounded-lg px-4 py-2 text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                        aria-label="Leaderboards">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M12.0002 16C6.24021 16 5.21983 10.2595 5.03907 5.70647C4.98879 4.43998 4.96365 3.80673 5.43937 3.22083C5.91508 2.63494 6.48445 2.53887 7.62318 2.34674C8.74724 2.15709 10.2166 2 12.0002 2C13.7837 2 15.2531 2.15709 16.3771 2.34674C17.5159 2.53887 18.0852 2.63494 18.5609 3.22083C19.0367 3.80673 19.0115 4.43998 18.9612 5.70647C18.7805 10.2595 17.7601 16 12.0002 16Z"
+                                stroke="#1C274C" stroke-width="1.5"></path>
+                            <path d="M11 8L12.5 6.5V10.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path
+                                d="M19 5L19.9486 5.31621C20.9387 5.64623 21.4337 5.81124 21.7168 6.20408C22 6.59692 22 7.11873 21.9999 8.16234L21.9999 8.23487C21.9999 9.09561 21.9999 9.52598 21.7927 9.87809C21.5855 10.2302 21.2093 10.4392 20.4569 10.8572L17.5 12.5"
+                                stroke="#1C274C" stroke-width="1.5"></path>
+                            <path
+                                d="M4.99994 5L4.05132 5.31621C3.06126 5.64623 2.56623 5.81124 2.2831 6.20408C1.99996 6.59692 1.99997 7.11873 2 8.16234L2 8.23487C2.00003 9.09561 2.00004 9.52598 2.20723 9.87809C2.41441 10.2302 2.79063 10.4392 3.54305 10.8572L6.49994 12.5"
+                                stroke="#1C274C" stroke-width="1.5"></path>
+                            <path d="M12 16V19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
+                            <path
+                                d="M15.5 22H8.5L8.83922 20.3039C8.93271 19.8365 9.34312 19.5 9.8198 19.5H14.1802C14.6569 19.5 15.0673 19.8365 15.1608 20.3039L15.5 22Z"
+                                stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            </path>
+                            <path d="M18 22H6" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
+                        </svg>
+
+                        <span
+                            class="invisible absolute inset-s-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-200 px-2 py-1.5 text-xs font-medium text-gray-700 group-hover:visible">
+                            Leaderboards
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a routerLink="/sketches"
+                        class="group relative grid place-content-center rounded-lg px-4 py-2 text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                        aria-label="Sketches">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                            viewBox="0 0 64 64" stroke="currentColor" stroke-width="2">
+                            <path fill="#231F20"
+                                d="M62.828,12.482L51.514,1.168c-1.562-1.562-4.093-1.562-5.657,0.001c0,0-44.646,44.646-45.255,45.255 C-0.006,47.031,0,47.996,0,47.996l0.001,13.999c0,1.105,0.896,2,1.999,2.001h4.99c0.003,0,9.01,0,9.01,0s0.963,0.008,1.572-0.602 s45.256-45.257,45.256-45.257C64.392,16.575,64.392,14.046,62.828,12.482z M37.356,12.497l3.535,3.536L6.95,49.976l-3.536-3.536 L37.356,12.497z M8.364,51.39l33.941-33.942l4.243,4.243L12.606,55.632L8.364,51.39z M3.001,61.995c-0.553,0-1.001-0.446-1-0.999 v-1.583l2.582,2.582H3.001z M7.411,61.996l-5.41-5.41l0.001-8.73l14.141,14.141H7.411z M17.557,60.582l-3.536-3.536l33.942-33.94 l3.535,3.535L17.557,60.582z M52.912,25.227L38.771,11.083l2.828-2.828l14.143,14.143L52.912,25.227z M61.414,16.725l-4.259,4.259 L43.013,6.841l4.258-4.257c0.782-0.782,2.049-0.782,2.829-0.002l11.314,11.314C62.195,14.678,62.194,15.943,61.414,16.725z">
+                            </path>
+                        </svg>
+
+                        <span
+                            class="invisible absolute inset-s-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-200 px-2 py-1.5 text-xs font-medium text-gray-700 group-hover:visible">
+                            Sketches
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
+            <a href="#"
+                class="group relative grid place-content-center rounded-lg px-4 py-2 text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                aria-label="Logout">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+
+                <span
+                    class="invisible absolute inset-s-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-200 px-2 py-1.5 text-xs font-medium text-gray-700 group-hover:visible">
+                    Logout
+                </span>
+            </a>
+        </div>
+    </div>
+</div>

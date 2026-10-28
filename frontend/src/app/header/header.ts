@@ -1,9 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './header.css',
 })
-export class Header {}
+export class Header {
+  isMenuClosed = signal(true);
+
+  openMenu() {
+    this.isMenuClosed.set(false)
+  }
+
+  closeMenu() {
+    this.isMenuClosed.set(true)
+  }
+}
