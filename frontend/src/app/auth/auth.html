@@ -1,3 +1,78 @@
-<app-header />
-<p>auth works!</p>
-<app-footer />
+<main class="px-4 md:px-8">
+    <div class="flex flex-col items-center justify-center">
+        <!-- <div class="grid place-items-center h-screen"> -->
+        <div class="max-w-md w-full">
+
+            <div class="p-6 rounded-lg bg-white border border-slate-300 shadow-xs md:p-8">
+                <h1 class="text-slate-900 text-center text-3xl font-bold">@if(isSignin()){Sign in}@else {Sign up}</h1>
+
+                <form class="space-y-6 mt-10" [formGroup]="activeForm()" (ngSubmit)="onSubmit()">
+                    <div>
+                        <label for="username"
+                            class="mb-2 text-slate-900 font-medium text-sm inline-block">Username</label>
+                        <input formControlName="username" type="text" id="username" placeholder="username123"
+                            class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600" />
+                    </div>
+                    <div>
+                        <label for="password"
+                            class="mb-2 text-slate-900 font-medium text-sm inline-block">Password</label>
+                        <input formControlName="password" type="password" id="password" name="password"
+                            placeholder="••••••••"
+                            class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600" />
+                    </div>
+
+                    @if(!isSignin()){
+                    <div>
+                        <label for="repeat_password" class="mb-2 text-slate-900 font-medium text-sm inline-block">Repeat
+                            password</label>
+                        <input formControlName="repeat_password" type="password" id="repeat_password"
+                            name="repeat_password" placeholder="••••••••"
+                            class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600" />
+                    </div>}
+                    @if(isSignin()) {<div class="flex items-start flex-wrap gap-2">
+                        <label class="flex items-center group has-[input:checked]:text-slate-900">
+                            <input id="remember" name="remember" type="checkbox" class="sr-only" />
+
+                            <span
+                                class="flex h-4 w-4 shrink-0 items-center justify-center rounded outline-1 outline-slate-300 bg-white group-has-[input:checked]:bg-teal-600 group-has-[input:checked]:outline-teal-600 group-focus-within:outline-2 group-focus-within:outline-teal-600"
+                                aria-hidden="true">
+                                <svg class="size-3 text-white opacity-0 group-has-[input:checked]:opacity-100"
+                                    viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 5l3 3 7-7" />
+                                </svg>
+                            </span>
+                            <span class="ml-3 text-sm text-slate-700">
+                                Remember me
+                            </span>
+                        </label>
+                        <a href="#"
+                            class="ml-auto text-sm font-medium text-teal-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">
+                            Forgot password?
+                        </a>
+
+                    </div>}
+
+                    <button type="submit" [disabled]="!activeForm().valid"
+                        class="w-full py-2 px-3.5 text-sm rounded-md font-semibold cursor-pointer tracking-wide text-white border border-teal-600 bg-teal-600 hover:bg-teal-500 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">
+                        @if(isSignin()){Sign in}@else {Sign up}</button>
+
+                    @if(isSignin())
+                    {<div class="text-slate-900 text-sm text-center">Don't have an account? <a routerLink="/auth"
+                            [queryParams]="{mode: 'signup'}"
+                            class="text-teal-700 hover:underline ml-1 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">Sign
+                            up</a>
+                    </div>}
+                    @else {
+                    <div class="text-slate-900 text-sm text-center">Already have an account? <a routerLink="/auth"
+                            [queryParams]="{mode: 'signin'}"
+                            class="text-teal-700 hover:underline ml-1 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">Sign
+                            in</a>
+                    </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<p>Status: {{activeForm().status}}</p>
