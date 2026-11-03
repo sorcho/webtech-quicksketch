@@ -18,4 +18,8 @@ export class Header {
   closeMenu() {
     this.isMenuClosed.set(true)
   }
+
+  logout() {
+
+  }
 }

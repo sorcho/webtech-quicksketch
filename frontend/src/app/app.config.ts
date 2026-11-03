@@ -7,7 +7,8 @@ import {
   withEventReplay,
   withNoIncrementalHydration,
 } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
+import { provideToastr } from '@openng/ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
     provideHttpClient(),
+    provideToastr(),
   ],
 };

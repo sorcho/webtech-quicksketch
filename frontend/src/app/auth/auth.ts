@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from '@openng/ngx-toastr';
 
 @Component({
   selector: 'app-auth',
@@ -16,6 +17,8 @@ export class Auth {
   private formBuilder = inject(FormBuilder);
   private activatedRoute = inject(ActivatedRoute);
   private httpClient = inject(HttpClient);
+  private router = inject(Router);
+  private toastr = inject(ToastrService);
 
   readonly paramsObservable = this.activatedRoute.queryParamMap;
   readonly paramsSignal = toSignal(this.paramsObservable, { requireSync: true });
@@ -54,11 +57,14 @@ export class Auth {
 
     (this.isSignin()) ? url = "http://localhost:3000/login" : url = "http://localhost:3000/signup";
 
-    this.httpClient.post(url, { username: username, password: password }, { withCredentials: true }).subscribe({
+    this.httpClient.post<{ message: string }>(url, { username: username, password: password }, { withCredentials: true }).subscribe({
       next: (data) => {
         console.log(data);
+        this.toastr.success('', data.message, { timeOut: 1500, positionClass: 'toast-top-center' });
+        (this.isSignin()) ? this.router.navigateByUrl('/') : this.router.navigateByUrl('/auth?mode=signin');
       },
       error: (err) => {
+        this.toastr.error('', err.error.message, { timeOut: 1500, positionClass: 'toast-top-center' });
         console.warn(err);
       }
     });

@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { Auth } from './auth/auth';
 import { Profile } from './profile/profile';
-import { LbGuessers } from './lb-guessers/lb-guessers';
-import { LbDrawers } from './lb-drawers/lb-drawers';
 import { SketchCreate } from './sketch-create/sketch-create';
 import { SketchMain } from './sketch-main/sketch-main';
 import { SketchView } from './sketch-view/sketch-view';
