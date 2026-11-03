@@ -22,11 +22,11 @@ export class AuthController {
         const user = await User.findOne({ where: { username: req.body.username } });
 
         if (!user) {
-            return res.status(400).json({ message: "No user found with given username." });
+            return res.status(401).json({ message: "No user found with given username." });
         }
 
         if (!bcrypt.compareSync(req.body.password, user.password)) {
-            return res.status(400).json({ message: "Password didn't match." });
+            return res.status(401).json({ message: "Password didn't match." });
         }
 
         const token = AuthController.issueToken(user.id);
