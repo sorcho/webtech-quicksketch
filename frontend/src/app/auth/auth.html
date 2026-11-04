@@ -73,3 +73,10 @@
         </div>
     </div>
 </main>
+
+{{ signupForm.controls['password'].value }} <br>
+{{ signupForm.controls['password'].valid }} <br>
+{{ /[a-z]/.test(signupForm.controls['password'].value) }} <br>
+{{ /[A-Z]/.test(signupForm.controls['password'].value) }} <br>
+{{ /\d/.test(signupForm.controls['password'].value) }} <br>
+{{ /\S{6,}/.test(signupForm.controls['password'].value) }} <br>
