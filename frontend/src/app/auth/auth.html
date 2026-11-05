@@ -1,3 +1,22 @@
+<ng-template #ok>
+    <div class="float-left">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+
+    </div>
+</ng-template>
+
+<ng-template #not_ok>
+    <div class="float-left">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+    </div>
+</ng-template>
+
 <main class="px-4 md:px-8">
     <div class="flex flex-col items-center justify-center">
         <div class="max-w-md w-full">
@@ -16,6 +35,64 @@
                         <input formControlName="password" type="password" id="password" name="password"
                             placeholder="••••••••"
                             class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600" />
+                        @if(this.activeForm() === signupForm) {
+                        @if (/[a-z]/.test(signupForm.controls['password'].value)) {
+                        <div class="text-green-500">
+                            <ng-container [ngTemplateOutlet]="ok"></ng-container>
+                            <div class="float-left">At least one lowercase character</div>
+                        </div>
+                        } @else {
+                        <div class="text-red-500">
+                            <ng-container [ngTemplateOutlet]="not_ok">
+                            </ng-container>
+                            <div class="float-left">At least one lowercase character</div>
+                        </div>
+                        }
+                        <br>
+                        @if (/[A-Z]/.test(signupForm.controls['password'].value)) {
+                        <div class="text-green-500">
+                            <ng-container [ngTemplateOutlet]="ok"></ng-container>
+                            <div class="float-left">At least one uppercase character</div>
+                        </div>
+                        } @else {
+                        <div class="text-red-500">
+                            <ng-container [ngTemplateOutlet]="not_ok">
+                            </ng-container>
+                            <div class="float-left">At least one uppercase character</div>
+                        </div>
+                        }
+                        <br>
+
+                        @if (/\d/.test(signupForm.controls['password'].value)) {
+                        <div class="text-green-500">
+                            <ng-container [ngTemplateOutlet]="ok"></ng-container>
+                            <div class="float-left">At least one digit</div>
+                        </div>
+                        } @else {
+                        <div class="text-red-500">
+                            <ng-container [ngTemplateOutlet]="not_ok">
+                            </ng-container>
+                            <div class="float-left">At least one digit</div>
+                        </div>
+                        }
+                        <br>
+
+                        @if (/\S{6,}/.test(signupForm.controls['password'].value)) {
+                        <div class="text-green-500">
+                            <ng-container [ngTemplateOutlet]="ok"></ng-container>
+                            <div class="float-left">At least 6 characters</div>
+                        </div>
+                        } @else {
+                        <div class="text-red-500">
+                            <ng-container [ngTemplateOutlet]="not_ok">
+                            </ng-container>
+                            <div class="float-left">At least 6 characters</div>
+                        </div>
+                        }
+                        <br>
+                        }
+
+
                     </div>
 
                     @if(!isSignin()){
@@ -73,10 +150,3 @@
         </div>
     </div>
 </main>
-
-{{ signupForm.controls['password'].value }} <br>
-{{ signupForm.controls['password'].valid }} <br>
-{{ /[a-z]/.test(signupForm.controls['password'].value) }} <br>
-{{ /[A-Z]/.test(signupForm.controls['password'].value) }} <br>
-{{ /\d/.test(signupForm.controls['password'].value) }} <br>
-{{ /\S{6,}/.test(signupForm.controls['password'].value) }} <br>

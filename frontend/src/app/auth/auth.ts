@@ -4,10 +4,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from '@openng/ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-auth',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule],
   templateUrl: './auth.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './auth.css',
