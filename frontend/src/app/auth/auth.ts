@@ -25,14 +25,12 @@ export class Auth {
   readonly paramsSignal = toSignal(this.paramsObservable, { requireSync: true });
   readonly isSignin = computed(() => (this.paramsSignal().get('mode') === 'signin' ? true : false));
   readonly activeForm = computed(() => (this.isSignin() ? this.signinForm : this.signupForm));
-
-  // TODO: implement these signals correctly
-  readonly hasLowercaseSignal = signal('');
-  readonly hasUppercaseSignal = signal('');
-  readonly hasDigitSignal = signal('');
-  readonly hasSixCharactersSignal = signal('');
-
-  regex = new RegExp("^((?=\\S*?[A-Z])(?=\\S*?[a-z])(?=\\S*?[0-9])\\S{6,})$")
+  readonly regexRules = [
+    { label: "At least one lowercase character", regex: /[a-z]/ },
+    { label: "At least one uppercase character", regex: /[A-Z]/ },
+    { label: "At least one digit", regex: /\d/ },
+    { label: "At least six characters", regex: /.{6,}/ },
+  ];
 
   signinForm = this.formBuilder.group({
     username: ['', Validators.required],
@@ -42,7 +40,7 @@ export class Auth {
   // TODO: update deprecated usage of formBuilder.group
   signupForm = this.formBuilder.group({
     username: ['', Validators.required],
-    password: ['', [Validators.required, Validators.pattern(this.regex)]],
+    password: ['', Validators.required],
     repeat_password: ['', Validators.required],
   }, { validators: this.equalPasswordCheck });
 
@@ -66,7 +64,10 @@ export class Auth {
 
     (this.isSignin()) ? url = "http://localhost:3000/login" : url = "http://localhost:3000/signup";
 
-    if (!this.isSignin() && password.invalid) {
+    if (!this.isSignin() && !this.regexRules.every((rule) => {
+      return rule.regex.test(password.value);
+    }
+    )) {
       this.toastr.warning('', "The password isn't strong enough.", { timeOut: 1500, positionClass: 'toast-top-center' });
       return;
     }

@@ -36,60 +36,21 @@
                             placeholder="••••••••"
                             class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600" />
                         @if(this.activeForm() === signupForm) {
-                        @if (/[a-z]/.test(signupForm.controls['password'].value)) {
+                        @for (rule of regexRules; track rule.label) {
+                        @if (rule.regex.test(this.signupForm.controls["password"].value)) {
                         <div class="text-green-500">
                             <ng-container [ngTemplateOutlet]="ok"></ng-container>
-                            <div class="float-left">At least one lowercase character</div>
+                            <div class="float-left">{{ rule.label }}</div>
                         </div>
+                        <br>
                         } @else {
                         <div class="text-red-500">
-                            <ng-container [ngTemplateOutlet]="not_ok">
-                            </ng-container>
-                            <div class="float-left">At least one lowercase character</div>
-                        </div>
-                        }
-                        <br>
-                        @if (/[A-Z]/.test(signupForm.controls['password'].value)) {
-                        <div class="text-green-500">
                             <ng-container [ngTemplateOutlet]="ok"></ng-container>
-                            <div class="float-left">At least one uppercase character</div>
+                            <div class="float-left">{{ rule.label }}</div>
                         </div>
-                        } @else {
-                        <div class="text-red-500">
-                            <ng-container [ngTemplateOutlet]="not_ok">
-                            </ng-container>
-                            <div class="float-left">At least one uppercase character</div>
-                        </div>
-                        }
                         <br>
-
-                        @if (/\d/.test(signupForm.controls['password'].value)) {
-                        <div class="text-green-500">
-                            <ng-container [ngTemplateOutlet]="ok"></ng-container>
-                            <div class="float-left">At least one digit</div>
-                        </div>
-                        } @else {
-                        <div class="text-red-500">
-                            <ng-container [ngTemplateOutlet]="not_ok">
-                            </ng-container>
-                            <div class="float-left">At least one digit</div>
-                        </div>
                         }
-                        <br>
-
-                        @if (/\S{6,}/.test(signupForm.controls['password'].value)) {
-                        <div class="text-green-500">
-                            <ng-container [ngTemplateOutlet]="ok"></ng-container>
-                            <div class="float-left">At least 6 characters</div>
-                        </div>
-                        } @else {
-                        <div class="text-red-500">
-                            <ng-container [ngTemplateOutlet]="not_ok">
-                            </ng-container>
-                            <div class="float-left">At least 6 characters</div>
-                        </div>
                         }
-                        <br>
                         }
 
 

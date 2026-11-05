@@ -4,7 +4,7 @@ import { User } from "./../models/Database.js"
 
 export class AuthController {
     static async newUser(req, res) {
-        const regex = new RegExp("^((?=\\S*?[A-Z])(?=\\S*?[a-z])(?=\\S*?[0-9])\\S{6,})$")
+        const regex = new RegExp("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,})$")
         try {
             const existing = await User.findOne({ where: { username: req.body.username } });
 
