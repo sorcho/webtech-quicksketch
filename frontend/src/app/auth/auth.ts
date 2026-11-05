@@ -80,13 +80,11 @@ export class Auth {
 
     this.httpClient.post<{ message: string }>(url, { username: username.value, password: password.value }, { withCredentials: true }).subscribe({
       next: (data) => {
-        console.log(data);
         this.toastr.success('', data.message, { timeOut: 1500, positionClass: 'toast-top-center' });
         (this.isSignin()) ? this.router.navigateByUrl('/') : this.router.navigateByUrl('/auth?mode=signin');
       },
       error: (err) => {
         this.toastr.error('', err.error.message, { timeOut: 2500, positionClass: 'toast-top-center' });
-        console.warn(err);
       }
     });
   }

@@ -18,7 +18,7 @@ export class Profile {
         console.log(data);
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       }
     });
   }
