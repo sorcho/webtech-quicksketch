@@ -33,6 +33,14 @@ app.use(profileRouter);
 app.use(leaderboardRouter);
 
 app.use((err, req, res, next) => {
+    console.error(err);
+
+    if (err.status === 413) {
+        return res.status(413).json({ message: "File too large." });
+    } else if (err.status === 400) {
+        return res.status(400).json({ message: "Bad request." });
+    }
+
     res.status(500).json({ message: "Internal server error." });
 });
 

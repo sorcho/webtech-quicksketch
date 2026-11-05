@@ -4,8 +4,8 @@ import { User } from "./../models/Database.js"
 
 export class AuthController {
     static async newUser(req, res) {
-        const regex = new RegExp("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,})$")
         try {
+            const regex = new RegExp("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,})$")
             const existing = await User.findOne({ where: { username: req.body.username } });
 
             if (existing) {
@@ -29,7 +29,7 @@ export class AuthController {
 
             res.status(201).json({ message: "Registration completed." })
         } catch (err) {
-            console.log(err.message);
+            console.error(err);
             res.status(500).json({ message: "Error during the registration." });
         }
     }
@@ -56,7 +56,7 @@ export class AuthController {
 
             return res.status(200).json({ message: 'Logged in successfully.' });
         } catch (err) {
-            console.log(err.message);
+            console.error(err);
             res.status(500).json({ message: "Error during the login." });
         }
     }

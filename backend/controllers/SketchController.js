@@ -3,17 +3,17 @@ import { Sketch, Try } from "../models/Database.js";
 
 export class SketchController {
     static async newSketch(req, res) {
-        const rawImage = req.body.image
-
-        if (!rawImage) {
-            return res.status(400).json({ message: 'No image provided.' });
-        }
-
-        if (!req.body.word) {
-            return res.status(400).json({ message: 'No word provided.' });
-        }
-
         try {
+            const rawImage = req.body.image
+
+            if (!rawImage) {
+                return res.status(400).json({ message: 'No image provided.' });
+            }
+
+            if (!req.body.word) {
+                return res.status(400).json({ message: 'No word provided.' });
+            }
+
             const imagePath = saveImage(rawImage);
             await Sketch.create({
                 word: req.body.word,
@@ -22,37 +22,53 @@ export class SketchController {
             });
             res.status(201).json({ message: "Sketch created." });
         } catch (err) {
+            console.error(err);
             res.status(500).json({ message: "Error creating the sketch." });
         }
     };
 
     static async getAllSketches(req, res) {
-        const sketches = await Sketch.findAll({
-            attributes: { exclude: ['word'] }
-        });
+        try {
+            const sketches = await Sketch.findAll({
+                attributes: { exclude: ['word'] }
+            });
 
-        (sketches.length === 0) ? res.status(404).json({ message: 'No sketches found.' }) : res.status(200).json(sketches);
+            res.status(200).json(sketches);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: "Error retrieving the sketches." });
+        }
+
     };
 
     static async getSketch(req, res) {
-        const sketch = await Sketch.findByPk(req.params.id, {
-            attributes: { exclude: ['word'] }
-        });
+        try {
+            const sketch = await Sketch.findByPk(req.params.id, {
+                attributes: { exclude: ['word'] }
+            });
 
-        (!sketch) ? res.status(404).json({ message: 'No sketch found.' }) : res.status(200).json(sketch);
+            (!sketch) ? res.status(404).json({ message: 'No sketch found.' }) : res.status(200).json(sketch);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: "Error retrieving the sketch." });
+        }
+
     }
 
     static async newTry(req, res) {
-        const sketchId = req.params.id;
-        const userId = req.id;
-
         try {
+            const sketchId = req.params.id;
+            const userId = req.id;
             const [found, sketch] = await Promise.all([
                 Try.findOne({ where: { UserId: userId, SketchId: sketchId } }),
                 Sketch.findByPk(sketchId, { attributes: ['word'] })
             ]);
 
-            if (!sketch) return res.status(404).json({ error: "Sketch not found." });
+            if (!sketch) return res.status(404).json({ message: "Sketch not found." });
+
+            if (!req.body.guess) {
+                return res.status(400).json({ message: "Guess not provided." });
+            }
 
             const correct = req.body.guess.toLowerCase() === sketch.word.toLowerCase();
 
@@ -64,11 +80,11 @@ export class SketchController {
                     SketchId: sketchId
                 });
 
-                return res.status(200).json({ correct, tries_left: 9 });
+                return res.status(200).json({ correct, tries_left: 9, word: correct ? sketch.word : null });
             }
 
-            if (found.solved) return res.status(409).json({ error: "Already solved." });
-            if (found.tries_used >= 10) return res.status(409).json({ error: "Too many tries.", word: sketch.word });
+            if (found.solved) return res.status(409).json({ message: "Already solved." });
+            if (found.tries_used >= 10) return res.status(409).json({ message: "Too many tries.", word: sketch.word });
 
             await found.update({
                 tries_used: found.tries_used + 1,
@@ -78,7 +94,8 @@ export class SketchController {
             const tries_left = 10 - (found.tries_used + 1);
             return res.status(200).json({ correct, tries_left, word: correct || tries_left === 0 ? sketch.word : null });
         } catch (err) {
-            res.status(500).json({ error: "Internal server error." });
+            console.error(err);
+            res.status(500).json({ message: "Internal server error." });
         }
     };
 };
