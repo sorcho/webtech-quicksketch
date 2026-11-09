@@ -61,6 +61,11 @@ export class AuthController {
         }
     }
 
+    static async logout(req, res) {
+        if (req.id === null) return res.send(401).json({ message: "User not logged in." });
+        res.clearCookie("token").status(200).json({ message: "Logged out successfully." });
+    }
+
     static issueToken(id) {
         return Jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: `${24 * 60 * 60}s` });
     }
