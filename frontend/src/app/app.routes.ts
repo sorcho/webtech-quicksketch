@@ -11,34 +11,42 @@ import { Leaderboards } from './leaderboards/leaderboards';
 export const routes: Routes = [
     {
         path: "",
-        component: Homepage
+        component: Homepage,
+        title: "Homepage"
     },
     {
         path: "auth",
-        component: Auth
+        component: Auth,
+        title: "Authentication"
     },
     {
         path: "profile",
-        component: Profile
+        component: Profile,
+        title: "Profile"
     },
     {
         path: "leaderboards",
-        component: Leaderboards
+        component: Leaderboards,
+        title: "Leaderboards"
     },
     {
         path: "sketches",
-        component: SketchMain
+        component: SketchMain,
+        title: "Sketches"
     },
     {
         path: "sketches/new",
-        component: SketchCreate
+        component: SketchCreate,
+        title: "Create a sketch!"
     },
     {
         path: "sketches/:id",
-        component: SketchView
+        component: SketchView,
+        title: "Sketches"
     },
     {
         path: "**",
-        component: NotFound
+        component: NotFound,
+        title: "Page not found"
     }
 ];

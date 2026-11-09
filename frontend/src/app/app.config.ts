@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,9 +9,13 @@ import {
 } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideToastr } from '@openng/ngx-toastr';
+import { AuthService } from './auth-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppInitializer(() => {
+      inject(AuthService).checkSession();
+    }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay(), withNoIncrementalHydration()),

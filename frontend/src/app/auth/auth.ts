@@ -5,6 +5,7 @@ import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from '@openng/ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth-service';
 
 @Component({
   selector: 'app-auth',
@@ -20,6 +21,7 @@ export class Auth {
   private httpClient = inject(HttpClient);
   private router = inject(Router);
   private toastr = inject(ToastrService);
+  private authService = inject(AuthService);
 
   readonly paramsObservable = this.activatedRoute.queryParamMap;
   readonly paramsSignal = toSignal(this.paramsObservable, { requireSync: true });
@@ -80,6 +82,7 @@ export class Auth {
 
     this.httpClient.post<{ message: string }>(url, { username: username.value, password: password.value }, { withCredentials: true }).subscribe({
       next: (data) => {
+        this.authService.setLoggedIn(true);
         this.toastr.success('', data.message, { timeOut: 1500, positionClass: 'toast-top-center' });
         (this.isSignin()) ? this.router.navigateByUrl('/') : this.router.navigateByUrl('/auth?mode=signin');
       },
