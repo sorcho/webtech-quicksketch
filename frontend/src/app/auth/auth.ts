@@ -34,12 +34,12 @@ export class Auth {
     { label: "At least six characters", regex: /.{6,}/ },
   ];
 
-  signinForm = this.formBuilder.group({
+  signinForm = this.formBuilder.nonNullable.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
 
-  signupForm = this.formBuilder.group({
+  signupForm = this.formBuilder.nonNullable.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
     repeat_password: ['', Validators.required],
@@ -66,7 +66,6 @@ export class Auth {
     (this.isSignin()) ? url = "http://localhost:3000/login" : url = "http://localhost:3000/signup";
 
     if (!this.isSignin() && !this.regexRules.every((rule) => {
-      if (password.value === null) return;
       return rule.regex.test(password.value);
     }
     )) {
