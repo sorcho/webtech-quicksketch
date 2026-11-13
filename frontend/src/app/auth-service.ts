@@ -4,6 +4,7 @@ import { inject, PLATFORM_ID, Service, signal } from '@angular/core';
 
 @Service()
 export class AuthService {
+    userId?: number;
     readonly url = "http://localhost:3000/me"
     private readonly _isLoggedIn = signal(false);
     readonly isLoggedIn = this._isLoggedIn.asReadonly();
@@ -18,7 +19,10 @@ export class AuthService {
     checkSession() {
         if (!isPlatformBrowser(this.platformId)) return;
         this.httpClient.get(this.url, { withCredentials: true }).subscribe({
-            next: () => this._isLoggedIn.set(true),
+            next: (data: any) => {
+                this._isLoggedIn.set(true);
+                this.userId = data.id
+            },
             error: () => this._isLoggedIn.set(false),
         });
     }
