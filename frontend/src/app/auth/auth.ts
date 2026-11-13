@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, Validators, FormBuilder, FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from '@openng/ngx-toastr';
 import { CommonModule } from '@angular/common';
@@ -39,14 +39,13 @@ export class Auth {
     password: ['', Validators.required],
   });
 
-  // TODO: update deprecated usage of formBuilder.group
   signupForm = this.formBuilder.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
     repeat_password: ['', Validators.required],
   }, { validators: this.equalPasswordCheck });
 
-  equalPasswordCheck(group: FormGroup) {
+  equalPasswordCheck(group: AbstractControl) {
     const password = group.get('password');
     const repeat_password = group.get('repeat_password');
 
@@ -67,6 +66,7 @@ export class Auth {
     (this.isSignin()) ? url = "http://localhost:3000/login" : url = "http://localhost:3000/signup";
 
     if (!this.isSignin() && !this.regexRules.every((rule) => {
+      if (password.value === null) return;
       return rule.regex.test(password.value);
     }
     )) {
@@ -78,7 +78,6 @@ export class Auth {
       this.toastr.warning('', "The passwords don't match.", { timeOut: 1500, positionClass: 'toast-top-center' });
       return;
     }
-
 
     this.httpClient.post<{ message: string }>(url, { username: username.value, password: password.value }, { withCredentials: true }).subscribe({
       next: (data) => {
