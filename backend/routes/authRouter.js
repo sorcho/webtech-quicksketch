@@ -1,6 +1,7 @@
 import express from "express";
 import rateLimit from "express-rate-limit"
 import { AuthController } from "../controllers/AuthController.js";
+import { requireAuth } from "../middlewares/middlewares.js";
 
 export const authRouter = express.Router();
 
@@ -15,5 +16,13 @@ authRouter.post("/login", rateLimiter, (req, res) => {
 });
 
 authRouter.post("/signup", (req, res, next) => {
-    AuthController.newUser(req, res)
+    AuthController.newUser(req, res);
+})
+
+authRouter.get("/me", requireAuth, (req, res) => {
+    res.status(200).json({ id: req.id });
+})
+
+authRouter.post("/logout", requireAuth, (req, res) => {
+    AuthController.logout(req, res);
 })

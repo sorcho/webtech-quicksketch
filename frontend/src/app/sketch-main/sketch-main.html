@@ -1,3 +1,4 @@
-<app-header />
 <p>sketch-main works!</p>
-<app-footer />
+@if (authService.isLoggedIn()) {
+<a routerLink="/sketches/new" class="border">ano</a>
+}

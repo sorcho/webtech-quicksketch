@@ -16,6 +16,10 @@ sketchRouter.get("/sketches", (req, res) => {
     SketchController.getAllSketches(req, res)
 });
 
+sketchRouter.get("/sketches/random-word", (req, res) => {
+    SketchController.getRandomWord(req, res);
+})
+
 sketchRouter.get("/sketches/:id", (req, res) => {
     SketchController.getSketch(req, res);
 });

@@ -20,9 +20,13 @@
     "@angular/platform-server": "^22.2.3",
     "@angular/router": "^22.2.3",
     "@angular/ssr": "^22.2.3",
+    "@openng/ngx-toastr": "^1.1.1",
     "ci": "^2.3.0",
     "express": "^5.1.0",
+    "ngx-color-picker": "^20.1.1",
+    "ngx-resize-observer": "^4.0.0",
     "rxjs": "~7.8.0",
+    "signature_pad": "^5.1.4",
     "tailwindcss": "^4.3.3",
     "tslib": "^2.3.0"
   },
