@@ -40,9 +40,6 @@ export class SketchCreate {
     this.httpClient.get(this.apiUrl).subscribe({
       next: (data: any) => this.randomWord.set(data.word),
     });
-
-    console.log(this.strokeColor());
-    console.log(this.iconColor());
   }
 
   iconColorFn(color: string) {
