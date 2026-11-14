@@ -15,11 +15,10 @@ export class SketchMain {
   private authService = inject(AuthService);
 
   readonly url = "http://localhost:3000/sketches";
-  readonly sketches = [];
 
   constructor() {
     this.httpClient.get(this.url).subscribe({
-      next: () => console.log(this.sketches),
+      next: (data) => console.log(data),
       error: () => console.log("no"),
     });
   }
