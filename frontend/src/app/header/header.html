@@ -26,7 +26,7 @@
                 </nav>
             </div>
             <div class="flex items-center gap-4">
-                @if (isLoggedIn()) {
+                @if (authState() === 'authenticated') {
                 <div class="relative inline-flex">
                     <button type="button" (click)="toggleDropdown()"
                         class="inline-flex divide-x divide-gray-300 overflow-hidden cursor-pointer">
@@ -55,7 +55,7 @@
                     </div>
                     }
                 </div>
-                } @else {
+                } @else if(authState() === 'anonymous') {
                 <div class="sm:flex sm:gap-4">
                     <a class="transition hover:bg-teal-500 rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm"
                         routerLink="/auth" [queryParams]="{mode: 'signin'}">

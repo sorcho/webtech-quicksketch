@@ -16,7 +16,7 @@ export class Header {
   private toastr = inject(ToastrService);
   private authService = inject(AuthService);
 
-  readonly isLoggedIn = this.authService.isLoggedIn;
+  readonly authState = this.authService.authState;
   readonly url = "http://localhost:3000/logout";
 
   isDropdownClosed = signal(true);
@@ -44,7 +44,7 @@ export class Header {
         this.toastr.success("", data.message, { timeOut: 1500, positionClass: 'toast-top-center' });
         this.authService.setLoggedIn(false)
       },
-      error: (err) => this.toastr.error("", err.message)
+      error: (err) => this.toastr.error("", err.error.message)
     })
   }
 }
