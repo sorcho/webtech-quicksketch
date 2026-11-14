@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ChangeDetectionStrategy, inject, viewChild, ElementRef, effect, ViewChild, signal, computed } from '@angular/core';
-import { FormBuilder, ɵInternalFormsSharedModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../auth-service';
+import { Component, ChangeDetectionStrategy, inject, viewChild, ElementRef, effect, signal, computed } from '@angular/core';
+import { ɵInternalFormsSharedModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SignaturePadService } from '../signature-pad-service';
 import { ToastrService } from '@openng/ngx-toastr';
 import { NgxResizeObserverModule, NgxResizeObserverDirective } from 'ngx-resize-observer';
-import { ColorPickerDirective, Rgba } from 'ngx-color-picker';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth-service';
 
 @Component({
   selector: 'app-sketch-create',
@@ -15,11 +16,11 @@ import { ColorPickerDirective, Rgba } from 'ngx-color-picker';
   styleUrl: './sketch-create.css',
 })
 export class SketchCreate {
-  private httpClient = inject(HttpClient);
-  private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
+  private httpClient = inject(HttpClient);
   private signaturePadService = inject(SignaturePadService);
   private toastr = inject(ToastrService);
+  private router = inject(Router);
 
   color: any;
 
@@ -52,15 +53,21 @@ export class SketchCreate {
     this.signaturePadService.updateColor(rgb);
   }
 
-  sketchForm = this.formBuilder.group({
-    word: this.randomWord,
-    userId: this.authService.userId,
-    image: ['', Validators.required]
-  });
-
   onSubmit() {
-    if (this.signaturePadService.isEmpty()) {
+    const base64Image = this.signaturePadService.isEmpty() ? undefined : this.signaturePadService.toDataURL();
+    const url = "http://localhost:3000/sketches";
+
+    if (!base64Image) {
       this.toastr.warning("No drawing provided");
+      return;
     }
+
+    this.httpClient.post<{ message: string }>(url, { word: this.randomWord(), image: base64Image }, { withCredentials: true }).subscribe({
+      next: (data) => {
+        this.toastr.success("", data.message, { timeOut: 2500, positionClass: 'toast-top-center' });
+        this.router.navigate(["/sketches"])
+      },
+      error: (err) => this.toastr.error("", err.error.message, { timeOut: 2500, positionClass: 'toast-top-center' }),
+    })
   };
 }
