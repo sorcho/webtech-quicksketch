@@ -7,6 +7,7 @@ import { SketchView } from './sketch-view/sketch-view';
 import { Homepage } from './homepage/homepage';
 import { NotFound } from './not-found/not-found';
 import { Leaderboards } from './leaderboards/leaderboards';
+import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
     {
@@ -22,7 +23,8 @@ export const routes: Routes = [
     {
         path: "profile",
         component: Profile,
-        title: "Profile"
+        title: "Profile",
+        canActivate: [authGuard]
     },
     {
         path: "leaderboards",
@@ -37,7 +39,8 @@ export const routes: Routes = [
     {
         path: "sketches/new",
         component: SketchCreate,
-        title: "Create a sketch!"
+        title: "Create a sketch!",
+        canActivate: [authGuard]
     },
     {
         path: "sketches/:id",
