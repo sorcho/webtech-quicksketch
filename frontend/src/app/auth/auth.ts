@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, afterNextRender } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, Validators, FormBuilder, FormGroup, AbstractControl, FormControl } from '@angular/forms';
@@ -53,6 +53,18 @@ export class Auth {
       return null;
     } else {
       return { passwordMismatch: true };
+    }
+  }
+
+  constructor() {
+    if (this.activatedRoute.snapshot.queryParams['reason']) {
+      afterNextRender({
+        write: () => {
+          this.toastr.info("", "You need to be logged in.", { timeOut: 2500, positionClass: 'toast-top-center' });
+          this.router.navigate(["/auth"], { queryParams: { mode: "signin" }, replaceUrl: true })
+        }
+      })
+
     }
   }
 
