@@ -2,3 +2,6 @@
 @if (authService.isLoggedIn()) {
 <a routerLink="/sketches/new" class="border">ano</a>
 }
+@for(sketch of sketches(); track sketch.id) {
+<img [src]="baseImageURL + sketch.image" \>
+}
