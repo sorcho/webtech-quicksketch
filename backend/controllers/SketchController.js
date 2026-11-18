@@ -1,5 +1,5 @@
 import { saveImage } from "../utils/saveImage.js"
-import { Sketch, Try } from "../models/Database.js";
+import { Sketch, Try, User } from "../models/Database.js";
 import { words } from "../utils/words.js";
 
 export class SketchController {
@@ -50,7 +50,8 @@ export class SketchController {
     static async getSketch(req, res) {
         try {
             const sketch = await Sketch.findByPk(req.params.id, {
-                attributes: { exclude: ['word'] }
+                include: [{ model: User, attributes: ["username"] }],
+                attributes: { exclude: ['word', "updatedAt"] }
             });
 
             (!sketch) ? res.status(404).json({ message: 'No sketch found.' }) : res.status(200).json(sketch);
@@ -58,8 +59,7 @@ export class SketchController {
             console.error(err);
             res.status(500).json({ message: "Error retrieving the sketch." });
         }
-
-    }
+    };
 
     static async newTry(req, res) {
         try {
