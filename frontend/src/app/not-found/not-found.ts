@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './not-found.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './not-found.css',
 })
-export class NotFound {}
+export class NotFound { }
