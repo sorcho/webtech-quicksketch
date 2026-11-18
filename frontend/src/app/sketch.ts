@@ -9,3 +9,9 @@ export interface SketchDetail extends Sketch {
         username: string
     }
 }
+
+export interface PlayerStatus {
+    status: "playing" | "solved" | "failed",
+    tries_left: number,
+    word: string | null
+}
