@@ -23,3 +23,7 @@ sketchRouter.get("/sketches/random-word", (req, res) => {
 sketchRouter.get("/sketches/:id", (req, res) => {
     SketchController.getSketch(req, res);
 });
+
+sketchRouter.get("/sketches/:id/try", requireAuth, userCantGuessOwnSketch, (req, res) => {
+    SketchController.getPlayerStatus(req, res);
+});

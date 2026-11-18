@@ -72,7 +72,7 @@ export class SketchController {
 
             if (!sketch) return res.status(404).json({ message: "Sketch not found." });
 
-            if (!req.body.guess) {
+            if (!req.body.guess.trim()) {
                 return res.status(400).json({ message: "Guess not provided." });
             }
 
@@ -97,7 +97,7 @@ export class SketchController {
                 solved: correct
             });
 
-            const tries_left = 10 - (found.tries_used + 1);
+            const tries_left = 10 - found.tries_used;
             return res.status(200).json({ correct, tries_left, word: correct || tries_left === 0 ? sketch.word : null });
         } catch (err) {
             console.error(err);
@@ -105,8 +105,36 @@ export class SketchController {
         }
     };
 
+    static async getPlayerStatus(req, res) {
+        try {
+            const sketchId = req.params.id;
+            const userId = req.id;
+
+            const [found, sketch] = await Promise.all([
+                Try.findOne({ where: { UserId: userId, SketchId: sketchId } }),
+                Sketch.findByPk(sketchId, { attributes: ['word'] })
+            ]);
+
+            if (!sketch) return res.status(404).json({ message: "Sketch not found." });
+
+            if (!found) return res.status(200).json({ status: "playing", tries_left: 10, word: null });
+
+            const tries_left = 10 - found.tries_used;
+
+            if (found.solved) return res.status(200).json({ status: "solved", tries_left: tries_left, word: sketch.word });
+
+            if (found.tries_used >= 10) return res.status(200).json({ status: "failed", tries_left: tries_left, word: sketch.word });
+
+            return res.status(200).json({ status: "playing", tries_left: tries_left, word: null });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: "Internal server error." });
+        }
+    }
+
     static getRandomWord(req, res) {
         const randomIndex = Math.floor(Math.random() * words.length);
         res.status(200).json({ word: words[randomIndex] });
     }
+
 };
