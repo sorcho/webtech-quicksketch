@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth-service';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from '@openng/ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ export class Header {
   private httpClient = inject(HttpClient);
   private toastr = inject(ToastrService);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   readonly authState = this.authService.authState;
   readonly url = "http://localhost:3000/logout";
@@ -42,7 +44,8 @@ export class Header {
     this.httpClient.post<{ message: string }>(this.url, {}, { withCredentials: true }).subscribe({
       next: (data) => {
         this.toastr.success("", data.message, { timeOut: 1500, positionClass: 'toast-top-center' });
-        this.authService.setLoggedIn(false)
+        this.authService.setLoggedIn(false);
+        this.router.navigate([""]);
       },
       error: (err) => this.toastr.error("", err.error.message)
     })
