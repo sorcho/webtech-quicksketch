@@ -1,8 +1,8 @@
 import { Component, input } from '@angular/core';
-import { Sketch } from '../sketch';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-sketch-card',
   styleUrl: './sketch-card.css',
   templateUrl: './sketch-card.html',
