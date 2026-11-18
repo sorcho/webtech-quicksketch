@@ -1,1 +1,21 @@
-<p>profile works!</p>
+@if (profileStats(); as p) {
+<main class="mx-auto w-full max-w-3xl p-4">
+    <div class="mb-6 flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-10 text-teal-600" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </svg>
+        <h1 class="text-2xl font-bold text-slate-900">{{ p.username }}</h1>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+        @for (stat of stats(); track stat.label) {
+        <div class="rounded-lg border border-gray-300 bg-white p-4 text-center">
+            <p class="text-3xl font-bold text-teal-600">{{ stat.value }}</p>
+            <p class="mt-1 text-sm text-gray-500">{{ stat.label }}</p>
+        </div>
+        }
+    </div>
+</main>
+}

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
+import { ProfileStats } from '../profile';
 
 @Component({
   selector: 'app-profile',
@@ -10,15 +11,28 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 })
 export class Profile {
   private httpClient = inject(HttpClient);
+
+  readonly profileStats = signal<ProfileStats | null>(null);
   readonly url = 'http://localhost:3000/profile'
 
+  protected readonly stats = computed(() => {
+    const p = this.profileStats();
+    if (!p) return [];
+    return [
+      { label: 'Games played', value: p.games_played },
+      { label: 'Solved', value: p.n_solved },
+      { label: 'Win rate', value: p.win_rate + '%' },
+      { label: 'Sketches created', value: p.n_sketches },
+      { label: 'Tries used', value: p.n_tries },
+      { label: 'Not solved yet', value: p.n_unsolved },
+    ];
+  });
+
   constructor() {
-    this.httpClient.get(this.url, { withCredentials: true }).subscribe({
+    this.httpClient.get<ProfileStats>(this.url, { withCredentials: true }).subscribe({
       next: (data) => {
-        console.log(data);
-      },
-      error: (err) => {
-        console.error(err);
+        this.profileStats.set(data);
+        console.log(this.profileStats());
       }
     });
   }
