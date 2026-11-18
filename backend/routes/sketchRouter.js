@@ -8,7 +8,7 @@ sketchRouter.post("/sketches", requireAuth, (req, res) => {
     SketchController.newSketch(req, res);
 });
 
-sketchRouter.post("/sketches/:id/tries", requireAuth, userCantGuessOwnSketch, (req, res) => {
+sketchRouter.post("/sketches/:id/new-try", requireAuth, userCantGuessOwnSketch, (req, res) => {
     SketchController.newTry(req, res);
 });
 
