@@ -1,1 +1,24 @@
-<p>lb-drawers works!</p>
+<section class="rounded-lg border border-gray-300 bg-white p-4">
+    <div class="mb-3 flex items-baseline justify-between">
+        <h2 class="text-lg font-bold text-slate-900">Best drawers</h2>
+        <span class="text-sm text-gray-500">Success rate</span>
+    </div>
+
+    @if (entries(); as list) {
+    @if (list.length === 0) {
+    <p class="text-sm text-gray-500">Nobody has played yet.</p>
+    } @else {
+    <ol class="divide-y divide-gray-200">
+        @for (entry of list; track entry.rank) {
+        <li class="flex items-center gap-3 py-2">
+            <span class="w-8 text-center text-lg">
+                {{ entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : entry.rank === 3 ? '🥉' : entry.rank }}
+            </span>
+            <span class="flex-1 truncate text-slate-900">{{ entry.username }}</span>
+            <span class="font-semibold text-teal-600">{{ entry.measure }}%</span>
+        </li>
+        }
+    </ol>
+    }
+    }
+</section>

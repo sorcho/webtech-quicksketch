@@ -1,1 +1,25 @@
-<p>leaderboards works!</p>
+<main class="mx-auto w-full max-w-4xl p-4">
+    <h1 class="mb-4 text-2xl font-bold text-slate-900">Leaderboards</h1>
+
+    <div class="mb-4 flex overflow-hidden rounded-md border border-gray-300 md:hidden" role="tablist">
+        <button type="button" role="tab" [attr.aria-selected]="tab() === 'guessers'" (click)="tab.set('guessers')"
+            class="flex-1 cursor-pointer px-4 py-2 text-sm font-medium" [class.bg-teal-600]="tab() === 'guessers'"
+            [class.text-white]="tab() === 'guessers'" [class.text-gray-600]="tab() !== 'guessers'">
+            Best guessers
+        </button>
+        <button type="button" role="tab" [attr.aria-selected]="tab() === 'drawers'" (click)="tab.set('drawers')"
+            class="flex-1 cursor-pointer px-4 py-2 text-sm font-medium" [class.bg-teal-600]="tab() === 'drawers'"
+            [class.text-white]="tab() === 'drawers'" [class.text-gray-600]="tab() !== 'drawers'">
+            Best drawers
+        </button>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2">
+        <div class="md:block" [class.hidden]="tab() !== 'guessers'">
+            <app-lb-guessers />
+        </div>
+        <div class="md:block" [class.hidden]="tab() !== 'drawers'">
+            <app-lb-drawers />
+        </div>
+    </div>
+</main>
