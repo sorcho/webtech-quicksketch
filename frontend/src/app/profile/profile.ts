@@ -19,12 +19,13 @@ export class Profile {
     const p = this.profileStats();
     if (!p) return [];
     return [
-      { label: 'Games played', value: p.games_played },
+      { label: 'In progress', value: p.n_playing },
       { label: 'Solved', value: p.n_solved },
+      { label: 'Failed', value: p.n_failed },
+      { label: 'Games played', value: p.games_played },
       { label: 'Win rate', value: p.win_rate + '%' },
-      { label: 'Sketches created', value: p.n_sketches },
       { label: 'Tries used', value: p.n_tries },
-      { label: 'Not solved yet', value: p.n_unsolved },
+      { label: 'Sketches created', value: p.n_sketches },
     ];
   });
 
@@ -32,7 +33,6 @@ export class Profile {
     this.httpClient.get<ProfileStats>(this.url, { withCredentials: true }).subscribe({
       next: (data) => {
         this.profileStats.set(data);
-        console.log(this.profileStats());
       }
     });
   }
