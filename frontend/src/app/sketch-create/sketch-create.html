@@ -1,4 +1,14 @@
 <div class="mx-auto flex w-full max-w-md flex-col items-center gap-4 p-4">
+    <div class="w-full">
+        <div class="h-3 w-full overflow-hidden rounded-full bg-gray-200" role="progressbar"
+            aria-label="Drawing time left" [attr.aria-valuenow]="remaining()" aria-valuemin="0" aria-valuemax="90">
+            <div class="h-full rounded-full transition-[width,background-color] duration-1000 ease-linear"
+                [class]="barColor()" [style.width.%]="progress()"></div>
+        </div>
+        <p class="mt-1 text-center text-sm tabular-nums text-gray-600" aria-live="polite">
+            @if (remaining() > 0) { {{ remaining() }}s } @else { Time's up! You can now submit. }
+        </p>
+    </div>
     <canvas #canvas class="block aspect-square w-full touch-none rounded-lg border border-gray-300 bg-white"
         (onResize)="this.signaturePadService.resize()" #resizingElement>
     </canvas>
@@ -7,7 +17,7 @@
             [style.background]="strokeColor()" (colorPickerChange)="updateColor($event)" [style.color]="iconColor()"
             title="Change pen color"
             class="-ms-px border border-gray-200 px-3 py-2 text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white focus:outline-hidden disabled:pointer-events-auto disabled:opacity-50"
-            aria-label="Edit">
+            aria-label="Edit" [disabled]="remaining() === 0">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -17,7 +27,7 @@
 
         <button title="Clear canvas" (click)="this.signaturePadService.clear()"
             class="-ms-px rounded-e-sm border border-gray-200 px-3 py-2 text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white focus:outline-hidden disabled:pointer-events-auto disabled:opacity-50"
-            aria-label="Delete">
+            aria-label="Delete" [disabled]="remaining() === 0">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
