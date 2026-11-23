@@ -57,7 +57,7 @@ export class SketchController {
             const sketches = await Sketch.findAll({
                 attributes: { exclude: ['word'] }
             });
-            console.log(req.id)
+
             if (!req.id) {
                 return res.status(200).json(sketches);
             }
