@@ -94,7 +94,7 @@ export class Auth {
       next: (data) => {
         this.authService.setLoggedIn(true);
         this.toastr.success('', data.message, { timeOut: 1500, positionClass: 'toast-top-center' });
-        (this.isSignin()) ? this.router.navigateByUrl('/') : this.router.navigateByUrl('/auth?mode=signin');
+        this.router.navigateByUrl('/');
       },
       error: (err) => {
         this.toastr.error('', err.error.message, { timeOut: 2500, positionClass: 'toast-top-center' });

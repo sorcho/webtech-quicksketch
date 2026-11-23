@@ -6,26 +6,37 @@ export class AuthController {
     static async newUser(req, res) {
         try {
             const regex = new RegExp("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,})$")
-            const existing = await User.findOne({ where: { username: req.body.username } });
+            const username = req.body.username;
+            const password = req.body.password;
+
+            const existing = await User.findOne({ where: { username: username } });
 
             if (existing) {
                 return res.status(409).json({ message: "A user with this username already exists." })
             }
 
-            if (!req.body.username || !req.body.password) {
+            if (!username || !password) {
                 return res.status(400).json({ message: "Username and password are required." });
             }
 
-            if (!regex.test(req.body.password)) {
+            if (!regex.test(password)) {
                 return res.status(400).json({ message: "Password isn't strong enough." });
             }
 
             let user = new User({
-                username: req.body.username,
-                password: req.body.password
+                username: username,
+                password: password
             });
 
             await user.save();
+
+            const token = AuthController.issueToken(user.id)
+
+            res.cookie('token', token, {
+                httpOnly: true,
+                sameSite: 'strict',
+                maxAge: 24 * 60 * 60 * 1000
+            })
 
             res.status(201).json({ message: "Registration completed." })
         } catch (err) {
