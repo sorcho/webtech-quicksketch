@@ -7,9 +7,10 @@ import {
   withEventReplay,
   withNoIncrementalHydration,
 } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideToastr } from '@openng/ngx-toastr';
 import { AuthService } from './auth-service';
+import { authStateInterceptor } from './auth-state-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authStateInterceptor])),
     provideToastr(),
   ],
 };
