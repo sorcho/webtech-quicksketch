@@ -1,6 +1,6 @@
 import express from "express";
 import { SketchController } from "../controllers/SketchController.js";
-import { requireAuth, userCantGuessOwnSketch } from "../middlewares/middlewares.js";
+import { requireAuth, optionalAuth, userCantGuessOwnSketch } from "../middlewares/middlewares.js";
 
 export const sketchRouter = express.Router();
 
@@ -12,7 +12,7 @@ sketchRouter.post("/sketches/:id/new-try", requireAuth, userCantGuessOwnSketch, 
     SketchController.newTry(req, res);
 });
 
-sketchRouter.get("/sketches", (req, res) => {
+sketchRouter.get("/sketches", optionalAuth, (req, res) => {
     SketchController.getAllSketches(req, res)
 });
 
