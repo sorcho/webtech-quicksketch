@@ -3,6 +3,14 @@ import { Sketch, Try, User } from "../models/Database.js";
 import { words } from "../utils/words.js";
 import Jwt from "jsonwebtoken";
 
+function getStatus(sketch, userId, userTry) {
+    if (sketch.UserId === userId) return 'own';
+    if (!userTry) return 'new';
+    if (userTry.solved) return 'solved';
+    if (userTry.tries_used >= 10) return 'failed';
+    return 'playing';
+}
+
 export class SketchController {
     static async newSketch(req, res) {
         try {
@@ -49,8 +57,20 @@ export class SketchController {
             const sketches = await Sketch.findAll({
                 attributes: { exclude: ['word'] }
             });
+            console.log(req.id)
+            if (!req.id) {
+                return res.status(200).json(sketches);
+            }
 
-            res.status(200).json(sketches);
+            const tries = await Try.findAll({ where: { UserId: req.id } });
+            const triesBySketch = new Map(tries.map(t => [t.SketchId, t]));
+
+            const result = sketches.map(sketch => ({
+                ...sketch.toJSON(),
+                status: getStatus(sketch, req.id, triesBySketch.get(sketch.id))
+            }));
+
+            res.status(200).json(result);
         } catch (err) {
             console.error(err);
             res.status(500).json({ message: "Error retrieving the sketches." });
