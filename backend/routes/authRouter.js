@@ -23,6 +23,6 @@ authRouter.get("/me", requireAuth, (req, res) => {
     res.status(200).json({ id: req.id });
 })
 
-authRouter.post("/logout", requireAuth, (req, res) => {
+authRouter.post("/logout", (req, res) => {
     AuthController.logout(req, res);
 })
