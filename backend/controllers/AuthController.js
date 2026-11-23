@@ -2,6 +2,14 @@ import Jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User } from "./../models/Database.js"
 
+function returnCookie(res, token) {
+    res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60 * 1000
+    });
+}
+
 export class AuthController {
     static async newUser(req, res) {
         try {
@@ -32,11 +40,7 @@ export class AuthController {
 
             const token = AuthController.issueToken(user.id)
 
-            res.cookie('token', token, {
-                httpOnly: true,
-                sameSite: 'strict',
-                maxAge: 24 * 60 * 60 * 1000
-            })
+            returnCookie(res, token);
 
             res.status(201).json({ message: "Registration completed." })
         } catch (err) {
@@ -59,11 +63,7 @@ export class AuthController {
 
             const token = AuthController.issueToken(user.id);
 
-            res.cookie('token', token, {
-                httpOnly: true,
-                sameSite: 'strict',
-                maxAge: 24 * 60 * 60 * 1000
-            })
+            returnCookie(res, token);
 
             return res.status(200).json({ message: 'Logged in successfully.' });
         } catch (err) {
