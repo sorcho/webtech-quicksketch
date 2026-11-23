@@ -12,6 +12,20 @@ export function requireAuth(req, res, next) {
     })
 }
 
+export function optionalAuth(req, res, next) {
+    const token = req.cookies.token;
+
+    AuthController.checkToken(token, (err, decoded) => {
+        if (err) {
+            next();
+            return;
+        }
+
+        req.id = decoded.id;
+        next();
+    })
+}
+
 export async function userCantGuessOwnSketch(req, res, next) {
     try {
         const sketchId = req.params.id;
