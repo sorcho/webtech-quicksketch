@@ -48,7 +48,9 @@ export class SignaturePadService {
         if (!this.signaturePad) return;
         this.signaturePad.penColor = newColor;
     }
+
     clear() { this.signaturePad?.clear(); }
     isEmpty() { return this.signaturePad?.isEmpty() ?? true; }
     toDataURL() { return this.signaturePad?.toDataURL(); }
+    disableInput() { return this.signaturePad?.off() };
 }
