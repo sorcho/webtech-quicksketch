@@ -1,30 +1,41 @@
 import { saveImage } from "../utils/saveImage.js"
 import { Sketch, Try, User } from "../models/Database.js";
 import { words } from "../utils/words.js";
+import Jwt from "jsonwebtoken";
 
 export class SketchController {
     static async newSketch(req, res) {
         try {
-            const rawImage = req.body.image
-            const word = req.body.word;
+            const drawingToken = req.body.drawingToken;
+            let decodedPayload;
+
+            try {
+                decodedPayload = Jwt.verify(drawingToken, process.env.DRAWING_SECRET, { algorithms: ['RS256'] });
+            } catch (error) {
+                if (error.name === "TokenExpiredError") {
+                    return res.status(400).json({ message: 'You took too long drawing!' });
+                }
+
+                return res.status(400).json({ message: 'Error submitting the sketch.' });
+            }
+
+            const userId = req.id;
+            const rawImage = req.body.image;
+            const word = decodedPayload.word;
+
+            if (userId !== decodedPayload.id) {
+                return res.status(403).json({ message: 'Tampered form.' });
+            }
 
             if (!rawImage) {
                 return res.status(400).json({ message: 'No image provided.' });
-            }
-
-            if (!word) {
-                return res.status(400).json({ message: 'No word provided.' });
-            }
-
-            if (!words.includes(word)) {
-                return res.status(400).json({ message: "Invalid or tampered word." });
             }
 
             const imagePath = saveImage(rawImage);
             await Sketch.create({
                 word: word,
                 image: imagePath,
-                UserId: req.id
+                UserId: userId
             });
             res.status(201).json({ message: "Sketch created." });
         } catch (err) {
@@ -134,7 +145,8 @@ export class SketchController {
 
     static getRandomWord(req, res) {
         const randomIndex = Math.floor(Math.random() * words.length);
-        res.status(200).json({ word: words[randomIndex] });
+        const randomWord = words[randomIndex];
+        const token = Jwt.sign({ id: req.id, word: randomWord }, process.env.DRAWING_SECRET, { expiresIn: `${120}s` });
+        res.status(200).json({ word: randomWord, token });
     }
-
 };
