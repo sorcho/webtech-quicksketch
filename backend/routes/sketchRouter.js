@@ -16,7 +16,7 @@ sketchRouter.get("/sketches", (req, res) => {
     SketchController.getAllSketches(req, res)
 });
 
-sketchRouter.get("/sketches/random-word", (req, res) => {
+sketchRouter.get("/sketches/random-word", requireAuth, (req, res) => {
     SketchController.getRandomWord(req, res);
 })
 
