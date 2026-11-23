@@ -62,7 +62,6 @@ export class AuthController {
     }
 
     static async logout(req, res) {
-        if (req.id === null) return res.send(401).json({ message: "User not logged in." });
         res.clearCookie("token").status(200).json({ message: "Logged out successfully." });
     }
 
