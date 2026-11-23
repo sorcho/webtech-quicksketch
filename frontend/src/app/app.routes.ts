@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { Auth } from './auth/auth';
 import { Profile } from './profile/profile';
-import { SketchCreate } from './sketch-create/sketch-create';
 import { SketchMain } from './sketch-main/sketch-main';
 import { SketchView } from './sketch-view/sketch-view';
 import { Homepage } from './homepage/homepage';
@@ -38,7 +37,7 @@ export const routes: Routes = [
     },
     {
         path: "sketches/new",
-        component: SketchCreate,
+        loadComponent: () => import("./sketch-create/sketch-create").then(m => m.SketchCreate),
         title: "Create a sketch!",
         canActivate: [authGuard]
     },
