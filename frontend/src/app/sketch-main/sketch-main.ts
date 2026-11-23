@@ -20,9 +20,8 @@ export class SketchMain {
   readonly url = "http://localhost:3000/sketches";
 
   constructor() {
-    this.httpClient.get(this.url).subscribe({
+    this.httpClient.get(this.url, { withCredentials: true }).subscribe({
       next: (data: any) => this.sketches.set(data),
-      error: () => console.log("no"),
     });
   }
 }
