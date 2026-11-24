@@ -10,6 +10,22 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  webServer: [{
+    command: 'rm -f test.sqlite && node scripts/createUser.js user Valid1 && node index.js',
+    cwd: '../backend',
+    url: 'http://localhost:3000/sketches',
+    reuseExistingServer: false,
+    env: {
+      DIALECT: 'sqlite',
+      DB_CONNECTION_URI: 'sqlite:test.sqlite',
+      RATE_LIMITER: '100000',
+    },
+  }, {
+    command: 'ng serve',
+    url: 'http://localhost:4200',
+    reuseExistingServer: true
+  }
+  ],
   testDir: './e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -42,16 +58,16 @@ export default defineConfig({
       use: { ...devices['Desktop Firefox'] },
     },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
