@@ -7,7 +7,7 @@ export const authRouter = express.Router();
 
 const rateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 5,
+    limit: process.env.RATE_LIMITER,
     message: { message: "Too many tries, try later." }
 });
 
