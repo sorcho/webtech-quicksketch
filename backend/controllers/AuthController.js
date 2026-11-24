@@ -77,10 +77,10 @@ export class AuthController {
     }
 
     static issueToken(id) {
-        return Jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: `${24 * 60 * 60}s` });
+        return Jwt.sign({ id: id }, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: `${24 * 60 * 60}s` });
     }
 
     static checkToken(token, callback) {
-        Jwt.verify(token, process.env.JWT_SECRET, callback);
+        Jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] }, callback);
     }
 }

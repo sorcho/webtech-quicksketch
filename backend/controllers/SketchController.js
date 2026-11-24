@@ -18,7 +18,7 @@ export class SketchController {
             let decodedPayload;
 
             try {
-                decodedPayload = Jwt.verify(drawingToken, process.env.DRAWING_SECRET, { algorithms: ['RS256'] });
+                decodedPayload = Jwt.verify(drawingToken, process.env.DRAWING_SECRET, { algorithms: ['HS256'] });
             } catch (error) {
                 if (error.name === "TokenExpiredError") {
                     return res.status(400).json({ message: 'You took too long drawing!' });
@@ -166,7 +166,7 @@ export class SketchController {
     static getRandomWord(req, res) {
         const randomIndex = Math.floor(Math.random() * words.length);
         const randomWord = words[randomIndex];
-        const token = Jwt.sign({ id: req.id, word: randomWord }, process.env.DRAWING_SECRET, { expiresIn: `${120}s` });
+        const token = Jwt.sign({ id: req.id, word: randomWord }, process.env.DRAWING_SECRET, { algorithm: 'HS256', expiresIn: `${120}s` });
         res.status(200).json({ word: randomWord, token });
     }
 };
